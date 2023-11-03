@@ -2,8 +2,9 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 
+import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 
@@ -11,6 +12,9 @@ type Props = {};
 
 const GenerateIndex = (props: Props) => {
   const [title, setTitle] = React.useState("");
+  const [chapterTitles, setIndexes] = React.useState<{ content: string }[]>([]);
+  const [completedChapters, setCompletedChapters] = useState<string[]>([]);
+  const [shouldFetchContent, setShouldFetchContent] = useState(false);
 
   const { data, mutateAsync } = useMutation({
     mutationKey: ["Index", title],
@@ -24,10 +28,19 @@ const GenerateIndex = (props: Props) => {
       { _title: title },
       {
         onSuccess: (data) => {
-          console.log(data.data.chapterTitles);
+          setIndexes(data.data.chapterTitles);
         },
       }
     );
+  };
+
+  const onDelete = (chapterTitle: string) => {
+    setCompletedChapters((prev) => {
+      const chaptersSet = new Set(prev);
+      chaptersSet.delete(chapterTitle);
+      return Array.from(chaptersSet);
+    });
+    setIndexes(chapterTitles.filter((ch) => ch.content !== chapterTitle));
   };
 
   return (
@@ -44,6 +57,18 @@ const GenerateIndex = (props: Props) => {
         <Button onClick={(e) => onSubmit()} type="button">
           Generate Index
         </Button>
+
+        {chapterTitles.length > 0 ? (
+          <ChapterGenerate
+            shouldFetchContent={shouldFetchContent}
+            setShouldFetchContent={setShouldFetchContent}
+            completedChapters={completedChapters}
+            setCompletedChapters={setCompletedChapters}
+            ebookTitle={title}
+            chapterTitles={chapterTitles}
+            onDelete={onDelete}
+          />
+        ) : null}
       </div>
     </div>
   );
