@@ -9,26 +9,25 @@ import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 
-
 type Props = {};
 
 // const SortableChapter = ({chapter}) => {
-  // const { 
-  //   attributes, 
-  //   listeners, 
-  //   setNodeRef, 
-  //   transform, 
-  //   transition 
-  // } = useSortable({ id: chapter })
-  // const style = {
-  //   transition,
-  //   transform: CSS.Transform.toString(transform),
-  // };
+// const {
+//   attributes,
+//   listeners,
+//   setNodeRef,
+//   transform,
+//   transition
+// } = useSortable({ id: chapter })
+// const style = {
+//   transition,
+//   transform: CSS.Transform.toString(transform),
+// };
 
 //   return (
-      // <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
-      //   {chapter}
-      // </div>  
+// <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
+//   {chapter}
+// </div>
 //     )
 // }
 
@@ -38,28 +37,27 @@ const GenerateIndex = (props: Props) => {
   // const [chapters, setChapters] = React.useState();
 
   const [chapterTitles, setIndexes] = React.useState<{ content: string }[]>([
-      {
-          "content": "Unicorn Tales"
-      },
-      {
-          "content": "Dragon Dreams"
-      },
-      {
-          "content": "A Clash of Fantasies"
-      },
-      {
-          "content": "Mystical Creatures Unite"
-      },
-      {
-          "content": "The Legend Lives On"
-      },
-      {
-          "content": "An Enchanted Journey"
-      }
+    {
+      content: "Unicorn Tales",
+    },
+    {
+      content: "Dragon Dreams",
+    },
+    {
+      content: "A Clash of Fantasies",
+    },
+    {
+      content: "Mystical Creatures Unite",
+    },
+    {
+      content: "The Legend Lives On",
+    },
+    {
+      content: "An Enchanted Journey",
+    },
   ]);
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [shouldFetchContent, setShouldFetchContent] = useState(false);
-
 
   const { data, mutateAsync } = useMutation({
     mutationKey: ["Index", title],
@@ -78,7 +76,6 @@ const GenerateIndex = (props: Props) => {
       }
     );
   };
-
 
   // const loadTitleChapters = async () => {
   //   try {
@@ -114,7 +111,6 @@ const GenerateIndex = (props: Props) => {
     setIndexes(chapterTitles.filter((ch) => ch.content !== chapterTitle));
   };
 
-
   return (
     <div className="p-24 flex gap-5">
       <div className="w-[50%] sticky top-0 h-max">
@@ -143,7 +139,7 @@ const GenerateIndex = (props: Props) => {
           />
         ) : null}
       </div>
-<<<<<<< HEAD
+
       <div className="px-12">
        {/* <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
           <SortableContext items={chapters} strategy={verticalListSortingStrategy}>
@@ -152,7 +148,7 @@ const GenerateIndex = (props: Props) => {
             ))}
           </SortableContext>
         </DndContext>*/}
-=======
+
       <div className="w-[50%]">
         <Ebook
           setShouldFetchContent={setShouldFetchContent}
@@ -162,7 +158,6 @@ const GenerateIndex = (props: Props) => {
           ebookTitle={title}
           key={completedChapters.length}
         />
->>>>>>> 99a75c46e36597e085992b76c76401da0b2dc06f
       </div>
     </div>
   );
