@@ -13,7 +13,7 @@ interface EBookStore {
 }
 
 const useEbookStore = create<EBookStore>()((set) => ({
-    title: 'An addicted human being',
+    title: '',
     setTitle: (title) => set({ title }),
     languageStyle: '',
     setLanguageStyle: (languageStyle) => set({ languageStyle }),
