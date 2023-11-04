@@ -4,8 +4,10 @@ import html2pdf from "html-to-pdf-js";
 import { Cormorant, Sorts_Mill_Goudy } from "next/font/google";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
+
 const cormorant = Cormorant({ subsets: ["latin"] });
 const sortsMillGoudy = Sorts_Mill_Goudy({ subsets: ["latin"], weight: "400" });
+
 type Props = {
   chapterTitles: { content: string; id: string }[];
   ebookTitle: string;
@@ -90,7 +92,7 @@ const Ebook = (props: Props) => {
             .save(fileName);
         }}
       >
-        Generate Pdf
+        Download PDF
       </Button>
       <div id="chapters">
         <div className={cn("my-4", "break-page")}>
