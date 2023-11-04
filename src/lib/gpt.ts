@@ -5,12 +5,27 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
+export type LanguageStyleUnion = 'academic' | 'storytelling' | 'informative'
+export type ToneOfChaptersUnion = 'formal' | 'conversational' | 'technical'
+export type ContentLengthUnion = 'short' | 'medium' | 'long'
+export type PointOfViewUnion = 'first-person' | 'third-person'
 
-export const generateIndex = async (title: string, num?: number) => {
+export type EbookParamsType = {
+    languageStyle?: Omit<LanguageStyleUnion, string>,
+    audience?: Omit<ToneOfChaptersUnion, string>,
+    contentLength?: Omit<ContentLengthUnion, string>,
+    pointOfView?: Omit<PointOfViewUnion, string>
+}
+
+
+export const generateIndex = async (title: string, num?: number, options?: EbookParamsType, prompt?: string) => {
     try {
+        const defaultLanguageStyle = options?.languageStyle || 'academic';
+        const defaultAudience = options?.audience || 'formal';
+        const defaultPointOfView = options?.pointOfView || 'third-person';
 
         const response = await strict_output(
-            `You are a helpful AI that is able to generate a chapter title in an ebook., the length of each chapter title should not be more than 15 words. The context is following title: ${title}`,
+            prompt || `You are a helpful AI that is able to generate a chapter title in an ebook, The length of each chapter title should not be more than 15 words. These are some parameters that should be considered: Language Style: '${defaultLanguageStyle}', Tone of Content: ${defaultAudience}, Point of View: ${defaultPointOfView}. The context is following title: ${title}`,
             new Array(num || 10).fill(
                 `You are to generate a chapter title in an ebook.`
             ),
@@ -18,6 +33,22 @@ export const generateIndex = async (title: string, num?: number) => {
                 content: 'A chapter title in an ebook.'
             }
         );
+
+        /*
+        Language Style = academic, storytelling, informative
+
+        [] Audience and Tone:
+            Determine the intended audience (age group, knowledge level, etc.) and the tone (formal, conversational, technical,   etc.) appropriate for the ebook.
+        
+        [] Content Length and Depth:
+            Specify the desired length of the ebook and the depth of information needed for each section.
+
+        [x] Language Style and Consistency:
+            Specify the language style (academic, storytelling, informative) and ensure consistency in language and terminology throughout the content.
+
+        [x] Narrative Voice and Point of View: 
+            Clarify the preferred narrative voice (first-person, third-person) or the point of view to be used within the content.
+        */
 
         return response
 
@@ -28,11 +59,15 @@ export const generateIndex = async (title: string, num?: number) => {
 }
 
 
-export const generateChapterInfo = async (ebookTitle: string, chapterTitle: string) => {
+export const generateChapterInfo = async (ebookTitle: string, chapterTitle: string, options?: EbookParamsType, prompt?: string) => {
+
+    const defaultLanguageStyle = options?.languageStyle || 'academic';
+    const defaultAudience = options?.audience || 'formal';
+    const defaultPointofView = options?.pointOfView || 'third-person';
+
     try {
-        console.log(ebookTitle, chapterTitle)
         const response = await strict_output(
-            `You are a helpful AI that is able to generate a chapter content from a chapter title for an ebook`,
+            prompt || `You are an educated author that is able to generate a chapter content from a chapter title for an ebook. These are some parameters that should be considered: Language Style: '${defaultLanguageStyle}', Tone of the content: '${defaultAudience}', Point of View: ${defaultPointofView}. Start with the contents of the chapter not like Chapter X: title here goes or content is here.`,
             `Title of the ebook: ${ebookTitle}, and chapter title: ${chapterTitle}`,
             {
                 content: 'contents of the chapter'

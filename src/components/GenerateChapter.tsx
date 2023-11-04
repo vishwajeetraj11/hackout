@@ -42,6 +42,7 @@ const ChapterGenerate = (props: Props) => {
 
   const onDragEnd = (event: any) => {
     const { active, over } = event;
+    if (!over) return;
     if (active.id === over.id) {
       return;
     }

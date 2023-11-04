@@ -6,8 +6,10 @@ import Link from "next/link";
 import React from "react";
 
 import { cn } from "@/lib/utils";
+import useEbookStore from "@/stores/ebookStore";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useShallow } from "zustand/react/shallow";
 
 const cormorant = Cormorant({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
@@ -36,15 +38,24 @@ const ChapterCard = ({
     transform: CSS.Transform.toString(transform),
   };
 
+  const { languageStyle, pointOfView, toneOfChapters } = useEbookStore(
+    useShallow((store) => ({
+      pointOfView: store.pointOfView,
+      languageStyle: store.languageStyle,
+      toneOfChapters: store.toneOfChapters,
+    }))
+  );
+
   const { data, isSuccess, isLoading, refetch, isFetched, isRefetching } =
     useQuery({
       queryKey: ["Chapter Content", ebookTitle, chapter.content],
       enabled: shouldFetchContent,
-      staleTime: Infinity,
+      // staleTime: Infinity,
       queryFn: async () => {
         const data = await axios.post("/api/generateChapterInfo", {
           chapterTitle: chapter.content,
           ebookTitle,
+          options: { languageStyle, pointOfView, toneOfChapters },
         });
         if (data.data.chapterContent) {
           setCompletedChapters((prev) => {
@@ -59,17 +70,17 @@ const ChapterCard = ({
 
   return (
     <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
+      // ref={setNodeRef}
+      // style={style}
+      // {...attributes}
+      // {...listeners}
       className="flex items-center justify-between mb-5 last:mb-0"
     >
       <div className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
         <p className={cn(inter.className)}>{chapter.content}</p>
       </div>
       <div className="ml-auto flex gap-2">
-        {(isLoading || isRefetching) && <Loader />}
+        {(isLoading || isRefetching) && <Loader className="animate-spin" />}
         {isSuccess && !isRefetching && (
           <Link href={`#chapter-${chapter.content}`}>
             <Eye />
@@ -79,13 +90,17 @@ const ChapterCard = ({
         {isFetched && (
           <RefreshCcw
             onClick={() => {
+              console.log("first");
               refetch();
             }}
-            className="cursor-pointer"
+            className={cn("cursor-pointer z-10", isRefetching && "hidden")}
           />
         )}
         {isSuccess && !isRefetching && (
-          <XCircle onClick={(e) => onDelete(chapter.content)} />
+          <XCircle
+            className="z-10"
+            onClick={(e) => onDelete(chapter.content)}
+          />
         )}
       </div>
     </div>

@@ -51,7 +51,7 @@ const Ebook = (props: Props) => {
   return (
     <div>
       <button type="button" onClick={() => getData()}>
-        GET DATA
+        get data
       </button>
       <Button
         onClick={() => {
@@ -73,6 +73,13 @@ const Ebook = (props: Props) => {
               margin: [10, 20, 10, 20],
               mode: "css",
               pagebreak: { after: [".break-page"] },
+
+              jsPDF: {
+                autoPaging: "text",
+                unit: "pt",
+                format: "letter",
+                orientation: "portrait",
+              },
             })
             .toPdf()
             .get("pdf")
@@ -124,7 +131,7 @@ const Ebook = (props: Props) => {
               return (
                 <div
                   id={`chapter-${key}`}
-                  className={cn("my-4", {
+                  className={cn("my-4 scroll-mt-3", {
                     "break-page": i !== Object.entries(chaptersInfo).length - 1,
                   })}
                   key={i}
