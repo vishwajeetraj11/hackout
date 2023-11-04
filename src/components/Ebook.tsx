@@ -62,7 +62,7 @@ const Ebook = (props: Props) => {
   return (
     <div >
       <button type="button" onClick={() => getData()}>
-        GET DATA
+        get data
       </button>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <div className="mr-1">
@@ -76,6 +76,7 @@ const Ebook = (props: Props) => {
           onClick={() => {
             var element = document.getElementById("chapters");
 
+<<<<<<< HEAD
             // html2pdf(element, {
             //   fileName: ebookTitle,
             //   margin: [10, 20, 10, 20],
@@ -114,6 +115,52 @@ const Ebook = (props: Props) => {
           Download PDF
         </Button>
       </div>
+=======
+          // html2pdf(element, {
+          //   fileName: ebookTitle,
+          //   margin: [10, 20, 10, 20],
+          //   mode: "css",
+          //   pagebreak: { after: [".break-page"] },
+          // });
+          const fileName = ebookTitle
+            .replace(/[^\w\s]/gi, "")
+            .replace(/ /g, "-")
+            .toLowerCase();
+          html2pdf()
+            .from(element)
+            .set({
+              margin: [10, 20, 10, 20],
+              mode: "css",
+              pagebreak: { after: [".break-page"] },
+
+              jsPDF: {
+                autoPaging: "text",
+                unit: "pt",
+                format: "letter",
+                orientation: "portrait",
+              },
+            })
+            .toPdf()
+            .get("pdf")
+            .then(function (pdf: any) {
+              var totalPages = pdf.internal.getNumberOfPages();
+              for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(10);
+                pdf.setTextColor(100);
+                pdf.text(
+                  "Page " + i + " of " + totalPages,
+                  pdf.internal.pageSize.getWidth() / 2.3,
+                  pdf.internal.pageSize.getHeight() - 1
+                );
+              }
+            })
+            .save(fileName);
+        }}
+      >
+        Download PDF
+      </Button>
+>>>>>>> 4b2e50515b069bb7cb42cbb558df23e1386b5624
       <div id="chapters">
         <div className={cn("my-4", "break-page")}>
           <p
@@ -144,7 +191,7 @@ const Ebook = (props: Props) => {
               return (
                 <div
                   id={`chapter-${key}`}
-                  className={cn("my-4", {
+                  className={cn("my-4 scroll-mt-3", {
                     "break-page": i !== Object.entries(chaptersInfo).length - 1,
                   })}
                   key={i}

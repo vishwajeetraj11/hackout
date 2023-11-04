@@ -1,9 +1,8 @@
 "use client";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React, { useState } from "react";
 
+import ConfigInputs from "@/components/ConfigInputs";
 import Ebook from "@/components/Ebook";
 import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
@@ -21,20 +20,30 @@ const GenerateIndex = (props: Props) => {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [shouldFetchContent, setShouldFetchContent] = useState(false);
 
-  const { title, setTitle } = useEbookStore(
-    useShallow((store) => ({ title: store.title, setTitle: store.setTitle }))
+  const { title, languageStyle, toneOfChapters } = useEbookStore(
+    useShallow((store) => ({
+      title: store.title,
+      setTitle: store.setTitle,
+      languageStyle: store.languageStyle,
+      toneOfChapters: store.toneOfChapters,
+    }))
   );
 
   const { data, mutateAsync } = useMutation({
     mutationKey: ["Index", title],
-    mutationFn: async ({ _title }: { _title: string }) => {
-      return axios.post("/api/generateIndex", { title: _title, num: 6 });
+    mutationFn: async ({ _title, languageStyle, toneOfChapters }: any) => {
+      const data = {
+        title: _title,
+        options: { languageStyle, toneOfChapters },
+        num: 5,
+      };
+      return axios.post("/api/generateIndex", data);
     },
   });
 
   const onSubmit = async () => {
     mutateAsync(
-      { _title: title },
+      { _title: title, languageStyle, toneOfChapters },
       {
         onSuccess: (data) => {
           const indexes = data.data.chapterTitles.map((chapter: any) => {
@@ -58,15 +67,8 @@ const GenerateIndex = (props: Props) => {
   return (
     <div className="p-24 flex gap-5">
       <div className="w-[50%] sticky top-0 h-max">
-        <Label className="mb-3 block">Title</Label>
-
-        <Input
-          placeholder="Enter title of book"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-
-        <Button onClick={(e) => onSubmit()} type="button">
+        <ConfigInputs />
+        <Button className="mb-4" onClick={(e) => onSubmit()} type="button">
           Generate Chapter Names
         </Button>
 

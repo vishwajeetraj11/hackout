@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Cormorant, Lora, Merriweather, Raleway, Roboto, Sorts_Mill_Goudy } from "next/font/google";
+=======
+import { LanguageStyleUnion, PointOfViewUnion, ToneOfChaptersUnion } from '@/lib/gpt';
+>>>>>>> 4b2e50515b069bb7cb42cbb558df23e1386b5624
 import { create } from 'zustand';
 
 const cormorant = Cormorant({ subsets: ['latin'] });
@@ -11,6 +15,7 @@ const merriweather = Merriweather({ subsets: ['latin'], weight: '400' });
 interface EBookStore {
     title: string;
     setTitle: (title: string) => void;
+<<<<<<< HEAD
     selectedFonts: { font1: string | null, font2: string | null };
     fonts: {
       cormorant: any;
@@ -45,3 +50,25 @@ const useEbookStore = create<EBookStore>((set) => ({
     }
 }));
 export default useEbookStore;
+=======
+    languageStyle: LanguageStyleUnion | '',
+    setLanguageStyle: (languageStyle: LanguageStyleUnion | '') => void;
+    toneOfChapters: ToneOfChaptersUnion | '',
+    setToneOfChapters: (toneOfChapters: ToneOfChaptersUnion | '') => void;
+    pointOfView: PointOfViewUnion | '',
+    setPointOfView: (pointOfView: PointOfViewUnion | '') => void;
+}
+
+const useEbookStore = create<EBookStore>()((set) => ({
+    title: 'An addicted human being',
+    setTitle: (title) => set({ title }),
+    languageStyle: '',
+    setLanguageStyle: (languageStyle) => set({ languageStyle }),
+    toneOfChapters: '',
+    setToneOfChapters: (toneOfChapters) => set({ toneOfChapters }),
+    pointOfView: '',
+    setPointOfView: (pointOfView) => set({ pointOfView }),
+}))
+
+export default useEbookStore
+>>>>>>> 4b2e50515b069bb7cb42cbb558df23e1386b5624
