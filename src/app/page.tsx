@@ -8,6 +8,7 @@ import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
 import useEbookStore from "@/stores/ebookStore";
 import { useMutation } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import { v4 } from "uuid";
 import { useShallow } from "zustand/react/shallow";
 
@@ -99,4 +100,4 @@ const GenerateIndex = (props: Props) => {
   );
 };
 
-export default GenerateIndex;
+export default dynamic(() => Promise.resolve(GenerateIndex), { ssr: false });

@@ -34,22 +34,6 @@ export const generateIndex = async (title: string, num?: number, options?: Ebook
             }
         );
 
-        /*
-        Language Style = academic, storytelling, informative
-
-        [] Audience and Tone:
-            Determine the intended audience (age group, knowledge level, etc.) and the tone (formal, conversational, technical,   etc.) appropriate for the ebook.
-        
-        [] Content Length and Depth:
-            Specify the desired length of the ebook and the depth of information needed for each section.
-
-        [x] Language Style and Consistency:
-            Specify the language style (academic, storytelling, informative) and ensure consistency in language and terminology throughout the content.
-
-        [x] Narrative Voice and Point of View: 
-            Clarify the preferred narrative voice (first-person, third-person) or the point of view to be used within the content.
-        */
-
         return response
 
     } catch (e) {
