@@ -1,23 +1,31 @@
 "use client";
 import React from "react";
-import ChapterCard from "./ChapterCard";
 import { Button } from "./ui/button";
 
-import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import { closestCenter, DndContext } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import ChapterCard from "./ChapterCard";
 
 type Props = {
-  chapterTitles: { content: string }[];
+  chapterTitles: { content: string; id: string }[];
   ebookTitle: string;
   completedChapters: string[];
   setCompletedChapters: React.Dispatch<React.SetStateAction<string[]>>;
   setShouldFetchContent: React.Dispatch<React.SetStateAction<boolean>>;
   shouldFetchContent: boolean;
   onDelete: (chapterTitle: string) => void;
-  setIndexes: React.Dispatch<React.SetStateAction<{
-    content: string;
-}[]>> 
+  setIndexes: React.Dispatch<
+    React.SetStateAction<
+      {
+        content: string;
+        id: string;
+      }[]
+    >
+  >;
 };
 
 const ChapterGenerate = (props: Props) => {
@@ -29,26 +37,34 @@ const ChapterGenerate = (props: Props) => {
     setShouldFetchContent,
     shouldFetchContent,
     onDelete,
-    setIndexes
+    setIndexes,
   } = props;
 
-  const onDragEnd = (event) => {
-    console.log("onDragEnd", event);
+  const onDragEnd = (event: any) => {
     const { active, over } = event;
-      if (active.id === over.id) {
-        return;
-      }
-      setIndexes((chapterTitles) => {
-        const oldIndex = chapterTitles.findIndex((chapter) => chapter.id === active.id);
-        const newIndex = chapterTitles.findIndex((chapter) => chapter.id === over.id);
-        return arrayMove(chapterTitles, oldIndex, newIndex);
-      });
+    if (active.id === over.id) {
+      return;
+    }
+    setIndexes((chapterTitles) => {
+      const oldIndex = chapterTitles.findIndex(
+        (chapter) => chapter.id === active.id
+      );
+
+      const newIndex = chapterTitles.findIndex(
+        (chapter) => chapter.id === over.id
+      );
+
+      return arrayMove(chapterTitles, oldIndex, newIndex);
+    });
   };
 
   return (
     <>
-     <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-        <SortableContext items={chapterTitles} strategy={verticalListSortingStrategy}>
+      <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+        <SortableContext
+          items={chapterTitles}
+          strategy={verticalListSortingStrategy}
+        >
           {chapterTitles.map((chapter, i) => {
             return (
               <ChapterCard

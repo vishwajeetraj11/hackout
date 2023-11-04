@@ -1,18 +1,19 @@
-import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Eye, Loader, RefreshCcw, XCircle } from "lucide-react";
-import { Cormorant } from "next/font/google";
+import { Cormorant, Inter } from "next/font/google";
 import Link from "next/link";
 import React from "react";
 
-import { CSS } from "@dnd-kit/utilities";
+import { cn } from "@/lib/utils";
 import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const cormorant = Cormorant({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
-  chapter: { content: string };
+  chapter: { content: string; id: string };
   ebookTitle: string;
   shouldFetchContent: boolean;
   completedChapters: string[];
@@ -27,8 +28,9 @@ const ChapterCard = ({
   setCompletedChapters,
   onDelete,
 }: Props) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: chapter.id });
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter })
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
@@ -38,6 +40,7 @@ const ChapterCard = ({
     useQuery({
       queryKey: ["Chapter Content", ebookTitle, chapter.content],
       enabled: shouldFetchContent,
+      staleTime: Infinity,
       queryFn: async () => {
         const data = await axios.post("/api/generateChapterInfo", {
           chapterTitle: chapter.content,
@@ -55,10 +58,16 @@ const ChapterCard = ({
     });
 
   return (
-    <div className="flex items-center justify-between mb-5 last:mb-0">
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
-        <p className={cn(cormorant.className)}>{chapter.content}</p>
-      </div> 
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="flex items-center justify-between mb-5 last:mb-0"
+    >
+      <div className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
+        <p className={cn(inter.className)}>{chapter.content}</p>
+      </div>
       <div className="ml-auto flex gap-2">
         {(isLoading || isRefetching) && <Loader />}
         {isSuccess && !isRefetching && (
