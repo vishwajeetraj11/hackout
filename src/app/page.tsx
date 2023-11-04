@@ -43,6 +43,7 @@ const GenerateIndex = (props: Props) => {
   });
 
   const onSubmit = async () => {
+    setCompletedChapters([]);
     mutateAsync(
       { _title: title, languageStyle, toneOfChapters },
       {
