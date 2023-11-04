@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 
+import html2pdf from "html-to-pdf-js";
 import dynamic from "next/dynamic";
 import { Cormorant, Sorts_Mill_Goudy } from "next/font/google";
 import React, { useCallback, useEffect, useState } from "react";
@@ -28,11 +29,6 @@ const Ebook = (props: Props) => {
   const queryClient = useQueryClient();
   const [chaptersInfo, setChaptersInfo] = useState<{ [key: string]: string }>();
   const [htmlToPdf, setHtmlToPdf] = useState<any>();
-
-  useEffect(() => {
-    const html2pdf = require("html-to-pdf-js");
-    setHtmlToPdf(html2pdf);
-  }, []);
 
   const getData = useCallback(() => {
     const chapterContent: { [key: string]: string } = {};
@@ -77,7 +73,8 @@ const Ebook = (props: Props) => {
               .replace(/[^\w\s]/gi, "")
               .replace(/ /g, "-")
               .toLowerCase();
-            htmlToPdf()
+
+            html2pdf()
               .from(element)
               .set({
                 margin: [10, 20, 10, 20],
