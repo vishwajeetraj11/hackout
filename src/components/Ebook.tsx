@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 const cormorant = Cormorant({ subsets: ["latin"] });
 const sortsMillGoudy = Sorts_Mill_Goudy({ subsets: ["latin"], weight: "400" });
 type Props = {
-  chapterTitles: { content: string }[];
+  chapterTitles: { content: string; id: string }[];
   ebookTitle: string;
   completedChapters: string[];
   setCompletedChapters: React.Dispatch<React.SetStateAction<string[]>>;
@@ -32,7 +32,6 @@ const Ebook = (props: Props) => {
         ebookTitle,
         chapter.content,
       ]) as any;
-      console.log("chapterDate", { content: chapter.content, data });
       if (data) {
         chapterContent[chapter.content] = data?.data?.chapterContent.content;
       }
@@ -76,8 +75,6 @@ const Ebook = (props: Props) => {
             .toPdf()
             .get("pdf")
             .then(function (pdf: any) {
-              console.log(pdf);
-              console.log(pdf.internal);
               var totalPages = pdf.internal.getNumberOfPages();
               for (let i = 1; i <= totalPages; i++) {
                 pdf.setPage(i);
