@@ -7,41 +7,23 @@ import React, { useState } from "react";
 import Ebook from "@/components/Ebook";
 import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
+import useEbookStore from "@/stores/ebookStore";
 import { useMutation } from "@tanstack/react-query";
 import { v4 } from "uuid";
+import { useShallow } from "zustand/react/shallow";
 
 type Props = {};
 
-// const SortableChapter = ({chapter}) => {
-// const {
-//   attributes,
-//   listeners,
-//   setNodeRef,
-//   transform,
-//   transition
-// } = useSortable({ id: chapter })
-// const style = {
-//   transition,
-//   transform: CSS.Transform.toString(transform),
-// };
-
-//   return (
-// <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
-//   {chapter}
-// </div>
-//     )
-// }
-
 const GenerateIndex = (props: Props) => {
-  const [title, setTitle] = React.useState("");
-
-  // const [chapters, setChapters] = React.useState();
-
   const [chapterTitles, setIndexes] = React.useState<
     { content: string; id: string }[]
   >([]);
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [shouldFetchContent, setShouldFetchContent] = useState(false);
+
+  const { title, setTitle } = useEbookStore(
+    useShallow((store) => ({ title: store.title, setTitle: store.setTitle }))
+  );
 
   const { data, mutateAsync } = useMutation({
     mutationKey: ["Index", title],

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Eye, Loader, RefreshCcw, XCircle } from "lucide-react";
-import { Cormorant } from "next/font/google";
+import { Cormorant, Inter } from "next/font/google";
 import Link from "next/link";
 import React from "react";
 
@@ -10,6 +10,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 const cormorant = Cormorant({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
   chapter: { content: string; id: string };
@@ -65,7 +66,7 @@ const ChapterCard = ({
       className="flex items-center justify-between mb-5 last:mb-0"
     >
       <div className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
-        <p className={cn(cormorant.className)}>{chapter.content}</p>
+        <p className={cn(inter.className)}>{chapter.content}</p>
       </div>
       <div className="ml-auto flex gap-2">
         {(isLoading || isRefetching) && <Loader />}
