@@ -62,7 +62,7 @@ const ChapterCard = ({
       <div className="ml-auto flex gap-2">
         {(isLoading || isRefetching) && <Loader />}
         {isSuccess && !isRefetching && (
-          <Link href={`/indexg#chapter-${chapter.content}`}>
+          <Link href={`#chapter-${chapter.content}`}>
             <Eye />
           </Link>
         )}

@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React, { useState } from "react";
 
+import Ebook from "@/components/Ebook";
 import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
@@ -126,7 +127,7 @@ const GenerateIndex = (props: Props) => {
         />
 
         <Button onClick={(e) => onSubmit()} type="button">
-          Generate Index
+          Generate Chapter Names
         </Button>
 
         {chapterTitles.length > 0 ? (
@@ -142,6 +143,7 @@ const GenerateIndex = (props: Props) => {
           />
         ) : null}
       </div>
+<<<<<<< HEAD
       <div className="px-12">
        {/* <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
           <SortableContext items={chapters} strategy={verticalListSortingStrategy}>
@@ -150,6 +152,17 @@ const GenerateIndex = (props: Props) => {
             ))}
           </SortableContext>
         </DndContext>*/}
+=======
+      <div className="w-[50%]">
+        <Ebook
+          setShouldFetchContent={setShouldFetchContent}
+          setCompletedChapters={setCompletedChapters}
+          completedChapters={completedChapters}
+          chapterTitles={chapterTitles}
+          ebookTitle={title}
+          key={completedChapters.length}
+        />
+>>>>>>> 99a75c46e36597e085992b76c76401da0b2dc06f
       </div>
     </div>
   );

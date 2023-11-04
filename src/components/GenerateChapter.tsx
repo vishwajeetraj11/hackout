@@ -68,10 +68,9 @@ const ChapterGenerate = (props: Props) => {
         variant={"default"}
         className="mt-5"
         type="button"
-        // onClick={generateChapterItems}
         onClick={() => setShouldFetchContent(true)}
       >
-        Generate Content
+        Generate Chapters
       </Button>
     </>
   );
