@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import html2pdf from "html-to-pdf-js";
 // import { Cormorant, Sorts_Mill_Goudy } from "next/font/google";
 import React, { useCallback, useEffect, useState } from "react";
-import useEbookStore from '../stores/ebookStore';
+import useEbookStore from "../stores/ebookStore";
 import { Button } from "./ui/button";
 
 // const cormorant = Cormorant({ subsets: ["latin"] });
@@ -17,7 +17,6 @@ type Props = {
   setShouldFetchContent: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-
 const Ebook = (props: Props) => {
   const {
     chapterTitles,
@@ -25,9 +24,12 @@ const Ebook = (props: Props) => {
     completedChapters,
     setShouldFetchContent,
   } = props;
-  
+
   const { selectedFonts, setSelectedFonts, fonts } = useEbookStore();
-  const [currentPair, setCurrentPair] = React.useState<{ font1: any; font2: any } | null>(null);
+  const [currentPair, setCurrentPair] = React.useState<{
+    font1: any;
+    font2: any;
+  } | null>(null);
 
   const handleButtonClick = (font1?: any, font2?: any) => {
     setSelectedFonts(font1, font2);
@@ -60,23 +62,43 @@ const Ebook = (props: Props) => {
   }, [chapterTitles, completedChapters, getData]);
 
   return (
-    <div >
+    <div>
       <button type="button" onClick={() => getData()}>
         get data
       </button>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <div className="mr-1">
-          <Button onClick={() => handleButtonClick(fonts.cormorant, fonts.sorts_Mill_Goudy)} className="mr-1">A</Button>
-          <Button onClick={() => handleButtonClick(fonts.raleway, fonts.lora)} className="mr-1">B</Button>
-          <Button onClick={() => handleButtonClick(fonts.roboto, fonts.merriweather)} className="mr-1">C</Button>
-          <Button onClick={() => handleButtonClick()} className="mr-1">D</Button>
-          <Button onClick={() => handleButtonClick()} className="mr-1">F</Button> 
+          <Button
+            onClick={() =>
+              handleButtonClick(fonts.cormorant, fonts.sorts_Mill_Goudy)
+            }
+            className="mr-1"
+          >
+            A
+          </Button>
+          <Button
+            onClick={() => handleButtonClick(fonts.raleway, fonts.lora)}
+            className="mr-1"
+          >
+            B
+          </Button>
+          <Button
+            onClick={() => handleButtonClick(fonts.roboto, fonts.merriweather)}
+            className="mr-1"
+          >
+            C
+          </Button>
+          <Button onClick={() => handleButtonClick()} className="mr-1">
+            D
+          </Button>
+          <Button onClick={() => handleButtonClick()} className="mr-1">
+            F
+          </Button>
         </div>
         <Button
           onClick={() => {
             var element = document.getElementById("chapters");
 
-<<<<<<< HEAD
             // html2pdf(element, {
             //   fileName: ebookTitle,
             //   margin: [10, 20, 10, 20],
@@ -115,52 +137,6 @@ const Ebook = (props: Props) => {
           Download PDF
         </Button>
       </div>
-=======
-          // html2pdf(element, {
-          //   fileName: ebookTitle,
-          //   margin: [10, 20, 10, 20],
-          //   mode: "css",
-          //   pagebreak: { after: [".break-page"] },
-          // });
-          const fileName = ebookTitle
-            .replace(/[^\w\s]/gi, "")
-            .replace(/ /g, "-")
-            .toLowerCase();
-          html2pdf()
-            .from(element)
-            .set({
-              margin: [10, 20, 10, 20],
-              mode: "css",
-              pagebreak: { after: [".break-page"] },
-
-              jsPDF: {
-                autoPaging: "text",
-                unit: "pt",
-                format: "letter",
-                orientation: "portrait",
-              },
-            })
-            .toPdf()
-            .get("pdf")
-            .then(function (pdf: any) {
-              var totalPages = pdf.internal.getNumberOfPages();
-              for (let i = 1; i <= totalPages; i++) {
-                pdf.setPage(i);
-                pdf.setFontSize(10);
-                pdf.setTextColor(100);
-                pdf.text(
-                  "Page " + i + " of " + totalPages,
-                  pdf.internal.pageSize.getWidth() / 2.3,
-                  pdf.internal.pageSize.getHeight() - 1
-                );
-              }
-            })
-            .save(fileName);
-        }}
-      >
-        Download PDF
-      </Button>
->>>>>>> 4b2e50515b069bb7cb42cbb558df23e1386b5624
       <div id="chapters">
         <div className={cn("my-4", "break-page")}>
           <p
@@ -177,7 +153,9 @@ const Ebook = (props: Props) => {
                   <p
                     className="text-lg mt-5"
                     style={{
-                      fontFamily: selectedFonts.font1 ? selectedFonts.font1 : undefined,
+                      fontFamily: selectedFonts.font1
+                        ? selectedFonts.font1
+                        : undefined,
                     }}
                   >
                     {key}
@@ -199,7 +177,9 @@ const Ebook = (props: Props) => {
                   <p
                     className="text-center text-xl"
                     style={{
-                      fontFamily: selectedFonts.font2 ? selectedFonts.font2 : undefined,
+                      fontFamily: selectedFonts.font2
+                        ? selectedFonts.font2
+                        : undefined,
                     }}
                   >
                     {key}
@@ -207,7 +187,9 @@ const Ebook = (props: Props) => {
                   <p
                     className="text-lg mt-5"
                     style={{
-                      fontFamily: selectedFonts.font1 ? selectedFonts.font1 : undefined,
+                      fontFamily: selectedFonts.font1
+                        ? selectedFonts.font1
+                        : undefined,
                     }}
                   >
                     {value}
@@ -222,4 +204,3 @@ const Ebook = (props: Props) => {
 };
 
 export default Ebook;
-
