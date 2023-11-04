@@ -84,7 +84,7 @@ const GenerateIndex = (props: Props) => {
         ) : null}
       </div>
 
-      <div className="px-12">
+      <div className="px-12"></div>
        {/* <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
           <SortableContext items={chapters} strategy={verticalListSortingStrategy}>
             {chapters.map((chapter) => (
