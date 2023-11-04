@@ -39,6 +39,7 @@ const ChapterCard = ({
     useQuery({
       queryKey: ["Chapter Content", ebookTitle, chapter.content],
       enabled: shouldFetchContent,
+      staleTime: Infinity,
       queryFn: async () => {
         const data = await axios.post("/api/generateChapterInfo", {
           chapterTitle: chapter.content,
