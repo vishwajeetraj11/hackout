@@ -29,6 +29,7 @@ const ChapterCard = ({
 }: Props) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: chapter.id });
+
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
@@ -55,14 +56,14 @@ const ChapterCard = ({
     });
 
   return (
-    <div className="flex items-center justify-between mb-5 last:mb-0">
-      <div
-        ref={setNodeRef}
-        style={style}
-        {...attributes}
-        {...listeners}
-        className="mb-3 font-normal text-gray-700 dark:text-gray-400y"
-      >
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="flex items-center justify-between mb-5 last:mb-0"
+    >
+      <div className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
         <p className={cn(cormorant.className)}>{chapter.content}</p>
       </div>
       <div className="ml-auto flex gap-2">

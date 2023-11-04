@@ -53,12 +53,7 @@ const ChapterGenerate = (props: Props) => {
       const newIndex = chapterTitles.findIndex(
         (chapter) => chapter.id === over.id
       );
-      console.log({
-        oldIndex,
-        newIndex,
-        oldArr: chapterTitles,
-        newArr: arrayMove(chapterTitles, oldIndex, newIndex),
-      });
+
       return arrayMove(chapterTitles, oldIndex, newIndex);
     });
   };
