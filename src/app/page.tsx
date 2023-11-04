@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React, { useState } from "react";
 
+import Ebook from "@/components/Ebook";
 import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
@@ -55,7 +56,7 @@ const GenerateIndex = (props: Props) => {
         />
 
         <Button onClick={(e) => onSubmit()} type="button">
-          Generate Index
+          Generate Chapter Names
         </Button>
 
         {chapterTitles.length > 0 ? (
@@ -69,6 +70,16 @@ const GenerateIndex = (props: Props) => {
             onDelete={onDelete}
           />
         ) : null}
+      </div>
+      <div className="w-[50%]">
+        <Ebook
+          setShouldFetchContent={setShouldFetchContent}
+          setCompletedChapters={setCompletedChapters}
+          completedChapters={completedChapters}
+          chapterTitles={chapterTitles}
+          ebookTitle={title}
+          key={completedChapters.length}
+        />
       </div>
     </div>
   );
