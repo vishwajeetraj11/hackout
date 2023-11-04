@@ -2,8 +2,9 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 
+import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 
@@ -35,6 +36,7 @@ type Props = {};
 
 const GenerateIndex = (props: Props) => {
   const [title, setTitle] = React.useState("");
+
   const [chapters, setChapters] = React.useState([
     {
         "content": "Unicorn Tales"
@@ -56,6 +58,11 @@ const GenerateIndex = (props: Props) => {
     }
 ]);
 
+  const [chapterTitles, setIndexes] = React.useState<{ content: string }[]>([]);
+  const [completedChapters, setCompletedChapters] = useState<string[]>([]);
+  const [shouldFetchContent, setShouldFetchContent] = useState(false);
+
+
   const { data, mutateAsync } = useMutation({
     mutationKey: ["Index", title],
     mutationFn: async ({ _title }: { _title: string }) => {
@@ -68,11 +75,12 @@ const GenerateIndex = (props: Props) => {
       { _title: title },
       {
         onSuccess: (data) => {
-          console.log(data.data.chapterTitles);
+          setIndexes(data.data.chapterTitles);
         },
       }
     );
   };
+
 
   // const loadTitleChapters = async () => {
   //   try {
@@ -99,6 +107,16 @@ const GenerateIndex = (props: Props) => {
   //   console.log("onDragEnd", event);
   // };
 
+  const onDelete = (chapterTitle: string) => {
+    setCompletedChapters((prev) => {
+      const chaptersSet = new Set(prev);
+      chaptersSet.delete(chapterTitle);
+      return Array.from(chaptersSet);
+    });
+    setIndexes(chapterTitles.filter((ch) => ch.content !== chapterTitle));
+  };
+
+
   return (
     <div className="p-24 flex gap-5">
       <div className="w-[50%] sticky top-0 h-max">
@@ -113,6 +131,18 @@ const GenerateIndex = (props: Props) => {
         <Button onClick={(e) => onSubmit()} type="button">
           Generate Index
         </Button>
+
+        {chapterTitles.length > 0 ? (
+          <ChapterGenerate
+            shouldFetchContent={shouldFetchContent}
+            setShouldFetchContent={setShouldFetchContent}
+            completedChapters={completedChapters}
+            setCompletedChapters={setCompletedChapters}
+            ebookTitle={title}
+            chapterTitles={chapterTitles}
+            onDelete={onDelete}
+          />
+        ) : null}
       </div>
       <div className="px-12">
        {/* <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
