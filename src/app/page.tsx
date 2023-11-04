@@ -8,57 +8,54 @@ import ChapterGenerate from "@/components/GenerateChapter";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 
-import { closestCenter, DndContext } from "@dnd-kit/core";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 type Props = {};
 
 // const SortableChapter = ({chapter}) => {
-//   const { 
-//     attributes, 
-//     listeners, 
-//     setNodeRef, 
-//     transform, 
-//     transition 
-//   } = useSortable({ id: chapter })
-//   const style = {
-//     transition,
-//     transform: CSS.Transform.toString(transform),
-//   };
+  // const { 
+  //   attributes, 
+  //   listeners, 
+  //   setNodeRef, 
+  //   transform, 
+  //   transition 
+  // } = useSortable({ id: chapter })
+  // const style = {
+  //   transition,
+  //   transform: CSS.Transform.toString(transform),
+  // };
 
 //   return (
-//       <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
-//         {chapter}
-//       </div>  
+      // <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
+      //   {chapter}
+      // </div>  
 //     )
 // }
 
 const GenerateIndex = (props: Props) => {
   const [title, setTitle] = React.useState("");
 
-  const [chapters, setChapters] = React.useState([
-    {
-        "content": "Unicorn Tales"
-    },
-    {
-        "content": "Dragon Dreams"
-    },
-    {
-        "content": "A Clash of Fantasies"
-    },
-    {
-        "content": "Mystical Creatures Unite"
-    },
-    {
-        "content": "The Legend Lives On"
-    },
-    {
-        "content": "An Enchanted Journey"
-    }
-]);
+  // const [chapters, setChapters] = React.useState();
 
-  const [chapterTitles, setIndexes] = React.useState<{ content: string }[]>([]);
+  const [chapterTitles, setIndexes] = React.useState<{ content: string }[]>([
+      {
+          "content": "Unicorn Tales"
+      },
+      {
+          "content": "Dragon Dreams"
+      },
+      {
+          "content": "A Clash of Fantasies"
+      },
+      {
+          "content": "Mystical Creatures Unite"
+      },
+      {
+          "content": "The Legend Lives On"
+      },
+      {
+          "content": "An Enchanted Journey"
+      }
+  ]);
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [shouldFetchContent, setShouldFetchContent] = useState(false);
 
@@ -141,6 +138,7 @@ const GenerateIndex = (props: Props) => {
             ebookTitle={title}
             chapterTitles={chapterTitles}
             onDelete={onDelete}
+            setIndexes={setIndexes}
           />
         ) : null}
       </div>

@@ -6,6 +6,9 @@ import { Cormorant } from "next/font/google";
 import Link from "next/link";
 import React from "react";
 
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
+
 const cormorant = Cormorant({ subsets: ["latin"] });
 
 type Props = {
@@ -24,6 +27,13 @@ const ChapterCard = ({
   setCompletedChapters,
   onDelete,
 }: Props) => {
+
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter })
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
   const { data, isSuccess, isLoading, refetch, isFetched, isRefetching } =
     useQuery({
       queryKey: ["Chapter Content", ebookTitle, chapter.content],
@@ -46,7 +56,9 @@ const ChapterCard = ({
 
   return (
     <div className="flex items-center justify-between mb-5 last:mb-0">
-      <p className={cn(cormorant.className)}>{chapter.content}</p>
+      <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 font-normal text-gray-700 dark:text-gray-400y">
+        <p className={cn(cormorant.className)}>{chapter.content}</p>
+      </div> 
       <div className="ml-auto flex gap-2">
         {(isLoading || isRefetching) && <Loader />}
         {isSuccess && !isRefetching && (
