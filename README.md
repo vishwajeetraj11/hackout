@@ -25,3 +25,10 @@ Accomplishments in hackathon:
 Existing Code used from open source github repos:
 strict_output function in gpt.ts.  
 shadcn for the UI.
+
+What it does?
+Its a AI Ebook Generator.
+Takes an input for title from the user and a couple of parameters regarding the language Style, tome of content and point of view and generates an ebook.
+
+Problem.
+Easing the process of ebook generation. 
