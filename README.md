@@ -1,20 +1,7 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
-
-- Create .env file and add the following variables
-```bash
-OPENAI_API_KEY=<your_key>
-```
-
-run the development server and start generating ebooks:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
+What it does?
+Its a AI Ebook Generator.
+Takes an input for title from the user and a couple of parameters regarding the language Style, tome of content and point of view and generates an ebook.
 
 Accomplishments in hackathon:
 - [x] Create a Next.js app
@@ -25,10 +12,6 @@ Accomplishments in hackathon:
 Existing Code used from open source github repos:
 strict_output function in gpt.ts.  
 shadcn for the UI.
-
-What it does?
-Its a AI Ebook Generator.
-Takes an input for title from the user and a couple of parameters regarding the language Style, tome of content and point of view and generates an ebook.
 
 Problem.
 Easing the process of ebook generation. 
